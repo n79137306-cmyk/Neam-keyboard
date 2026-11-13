@@ -11,8 +11,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fix keyboard CSS
         run: |
-          find NeamKeyboard -path '*assets*' -name '*.html' -exec sed -i 's/body\.ime \.x{display:none}/body.ime .x,body.ime #chat,body.ime #inp{display:none!important}/' {} +
-          grep -rl 'body.ime #chat' NeamKeyboard
+          find . -name '*.html' -not -path './.git/*' -print
+          find . -name '*.html' -not -path './.git/*' -exec sed -i 's|</head>|<style>body.ime .x,body.ime #chat,body.ime #inp{display:none!important}</style></head>|' {} +
+          find . -name '*.html' -not -path './.git/*' -exec grep -c 'class="ime"' {} + || true
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
