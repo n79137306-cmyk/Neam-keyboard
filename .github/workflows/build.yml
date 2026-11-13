@@ -1,3 +1,4 @@
+
 name: Build APK
 on:
   push:
@@ -8,12 +9,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 - run: unzip -q kb3.zip
+      - uses: actions/checkout@v4
+      - run: unzip -q kb3.zip
       - name: Fix keyboard CSS
         run: |
           find . -name '*.html' -not -path './.git/*' -print
           find . -name '*.html' -not -path './.git/*' -exec sed -i 's|</head>|<style>body.ime .x,body.ime #chat,body.ime #inp{display:none!important}</style></head>|' {} +
-          find . -name '*.html' -not -path './.git/*' -exec grep -c 'class="ime"' {} + || true
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
