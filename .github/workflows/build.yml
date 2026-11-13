@@ -9,7 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -q kb3.zip
+      - name: Fix keyboard CSS
+        run: |
+          find NeamKeyboard -path '*assets*' -name '*.html' -exec sed -i 's/body\.ime \.x{display:none}/body.ime .x,body.ime #chat,body.ime #inp{display:none!important}/' {} +
+          grep -rl 'body.ime #chat' NeamKeyboard
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
